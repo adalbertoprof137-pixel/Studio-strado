@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Studio Strato – Orçamento</title>
+    
+    <!-- Manifesto PWA -->
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Studio%20Strato%22%2C%22short_name%22%3A%22Strato%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%231a1a1a%22%2C%22theme_color%22%3A%22%23f9a826%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAZtJREFUWEftVrFtwzAQfScuUqRIkSJFihQpUqRIkaKFiixZsmTJkiVLliwZMmTIkCFDhgxZsmTLzz%2F4jpLDAFfw3CwUHI7v%2Be9%2B90QpdcczfWCv%2BwXj%2BFgqlS9K6V2MURCRM6lBSpkD6ALoAXTzzMwB9AD65XLxAeDjjr5FgBKAu8FGF4gAmBDMRzgRwIRgPsKJACYE8xFOBDAhmI9wIoAJwXyEEwFMCOYjnAhgQjAf4UQAE4L5CCcCmBDMRzhXKVVtN7DtyMbK%2Ftw%2F79bv4oeZhy6EEE%2FzNAHGpTXtTVEU73VdP%2B52uxfn3CMiHpLwTdM8rdfrZ%2B%2F9K4Avm9s2I5iu63YAHsqy%2FLC9GWGc6L0fALyM47gL0dQCbMdxfGqa5jl0BhHnE7d1d3CeAYBN7gHA6gCyCMwFYJ7vGxFP8mCbAN6JOEQ5q5F%2FAbaw2WzOAK5CCUIIB0SMUuElfiPnVqtVSb5aln0i4mcIoSR%2BEMg5h77s3zX4Y5i2bc%2B5jrz3vwD5AiA18pgYEoYPAAAAAElFTkSuQmCC%22%2C%22sizes%22%3A%2232x32%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
+    
+    <meta name="theme-color" content="#f9a826">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Studio Strato">
+    
+    <style>
+        /* estilos iguais ao código anterior (omitidos por brevidade) */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: #2c2c2c;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        h1 { text-align: center; margin-bottom: 1.5rem; font-size: 2rem; color: #f9a826; }
+        label { display: block; margin: 1rem 0 0.3rem; font-weight: 500; }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #555;
+            border-radius: 8px;
+            background: #3a3a3a;
+            color: white;
+            font-size: 1rem;
+        }
+        input:focus, select:focus { outline: none; border-color: #f9a826; }
+        .range-group { display: flex; align-items: center; gap: 10px; }
+        .range-group input[type="range"] { flex: 1; }
+        .range-group span { min-width: 60px; text-align: right; font-weight: bold; }
+        .custom-factors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .resultado { margin-top: 2rem; padding: 1.5rem; background: #1e1e1e; border-radius: 12px; text-align: center; }
+        .preco-final { font-size: 2.8rem; font-weight: bold; color: #4caf50; }
+        .detalhes { margin-top: 1rem; font-size: 0.9rem; color: #bbb; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; text-align: left; }
+        .detalhes strong { color: #f9a826; }
+        hr { border: none; border-top: 1px solid #444; margin: 1.5rem 0 0.5rem; }
+        .note { font-size: 0.8rem; color: #888; text-align: center; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <!-- mesmo HTML da calculadora (sem alterações) -->
+    <div class="container">
+        <h1>Studio Strato</h1>
+
+        <label for="estilo">🎨 Estilo da tatuagem</label>
+        <select id="estilo">
+            <option value="1.0">Old School / Tradicional (x1.0)</option>
+            <option value="1.4">Fine Line (x1.4)</option>
+            <option value="1.8">Realismo (x1.8)</option>
+            <option value="2.0">Realismo Colorido (x2.0)</option>
+            <option value="1.5">Blackwork (x1.5)</option>
+            <option value="2.2">Aquarela (x2.2)</option>
+            <option value="1.6">Pontilhismo (x1.6)</option>
+            <option value="1.6">Geométrico (x1.6)</option>
+            <option value="1.2">Tribal (x1.2)</option>
+            <option value="1.1">Lettering (x1.1)</option>
+            <option value="2.5">Cobertura (x2.5)</option>
+            <option value="custom">✨ Personalizado...</option>
+        </select>
+
+        <label for="regiao">📍 Região do corpo</label>
+        <select id="regiao">
+            <option value="1.0">Braço / Perna (x1.0)</option>
+            <option value="1.2">Antebraço / Panturrilha (x1.2)</option>
+            <option value="1.5">Costas / Peito (x1.5)</option>
+            <option value="1.7">Costelas / Pescoço (x1.7)</option>
+            <option value="2.0">Mãos / Pés / Rosto (x2.0)</option>
+            <option value="custom">✨ Personalizado...</option>
+        </select>
+
+        <label for="tamanho">📏 Tamanho da peça (maior dimensão em cm)</label>
+        <select id="tamanho">
+            <option value="0.7">Mini (até 5 cm)</option>
+            <option value="0.9">Pequena (5 a 10 cm)</option>
+            <option value="1.0" selected>Média (10 a 20 cm)</option>
+            <option value="1.3">Grande (20 a 30 cm)</option>
+            <option value="1.6">Extra grande (>30 cm)</option>
+            <option value="custom">✨ Personalizado...</option>
+        </select>
+
+        <div id="customFields" style="display: none;">
+            <div class="custom-factors">
+                <div>
+                    <label for="customEstilo">Fator estilo</label>
+                    <input type="number" id="customEstilo" value="1.0" step="0.1" min="0.5">
+                </div>
+                <div>
+                    <label for="customRegiao">Fator região</label>
+                    <input type="number" id="customRegiao" value="1.0" step="0.1" min="0.5">
+                </div>
+                <div>
+                    <label for="customTamanho">Fator tamanho</label>
+                    <input type="number" id="customTamanho" value="1.0" step="0.1" min="0.5">
+                </div>
+            </div>
+        </div>
+
+        <label for="horas">⏱️ Horas estimadas</label>
+        <div class="range-group">
+            <input type="range" id="horasRange" min="0.5" max="12" step="0.5" value="3">
+            <span id="horasValor">3.0h</span>
+        </div>
+        <input type="number" id="horas" min="0.5" step="0.5" value="3" style="margin-top: 5px;">
+
+        <label for="valorHora">💰 Valor da hora técnica (R$)</label>
+        <input type="number" id="valorHora" value="150" min="50" step="10">
+
+        <label for="margem">📈 Margem de lucro (%)</label>
+        <div class="range-group">
+            <input type="range" id="margemRange" min="0" max="100" value="20">
+            <span id="margemValor">20%</span>
+        </div>
+
+        <label for="insumos">🧴 Custo base de insumos (R$)</label>
+        <input type="number" id="insumos" value="40" min="0" step="5">
+
+        <div class="resultado" id="resultado">
+            <div class="preco-final" id="precoFinal">R$ 0,00</div>
+            <div class="detalhes" id="detalhes"></div>
+        </div>
+        <div class="note">Os valores são sugestões. Ajuste os fatores conforme sua experiência.</div>
+    </div>
+
+    <script>
+        // JavaScript exatamente igual ao do código anterior (calculadora completa)
+        // (copie todo o script da resposta anterior)
+    </script>
+
+    <!-- Registro do Service Worker para PWA offline -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register(
+                    URL.createObjectURL(
+                        new Blob([`
+                            const CACHE_NAME = 'studio-strato-v1';
+                            const urlsToCache = [
+                                '/',
+                                'index.html',
+                                'calculadora.html' // ajuste se necessário
+                            ];
+                            self.addEventListener('install', event => {
+                                event.waitUntil(
+                                    caches.open(CACHE_NAME)
+                                        .then(cache => cache.addAll(urlsToCache))
+                                );
+                            });
+                            self.addEventListener('fetch', event => {
+                                event.respondWith(
+                                    caches.match(event.request)
+                                        .then(response => response || fetch(event.request))
+                                );
+                            });
+                        `], { type: 'application/javascript' })
+                    )
+                );
+            });
+        }
+    </script>
+</body>
+</html>
